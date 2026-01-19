@@ -37,7 +37,7 @@ jobs:
         coverage: none
 
     - name: Install Composer Dependencies
-      run: composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      run: composer install --ignore-platform-reqs --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
     - name: Install NPM & Build (Tailwind/Vite)
       run: |
