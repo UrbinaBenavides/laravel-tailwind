@@ -2,23 +2,33 @@
 
 namespace Tests\Feature;
 
-use App\Models\User; // Asegúrate de importar el modelo User
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
-    use RefreshDatabase; // Esto limpia la base de datos después de cada test
+    use RefreshDatabase;
 
     public function test_the_application_returns_a_successful_response(): void
     {
-        // 1. Creamos un usuario de prueba usando el Factory
-        $user = User::factory()->create();
+        // 1. Creamos el usuario manualmente como lo haces en tu app
+        // Usamos campos que coincidan con tus migraciones (name, username, email, password)
+        $user = User::create([
+            'name' => 'Eduardo',
+            'username' => 'eduardo123',
+            'email' => 'edu@example.com',
+            'password' => Hash::make('password123'),
+        ]);
 
-        // 2. Usamos 'actingAs' para decirle a Laravel que este usuario está logueado
-        $response = $this->actingAs($user)->get('/');
+        // 2. Autenticamos al usuario que acabamos de crear
+        $this->actingAs($user);
 
-        // 3. Ahora sí, debería devolver 200 en lugar de redireccionar al login
+        // 3. Ahora intentamos entrar a la home
+        $response = $this->get('/');
+
+        // 4. Al estar autenticado, ya no habrá 302, sino 200 (OK)
         $response->assertStatus(200);
     }
 }
