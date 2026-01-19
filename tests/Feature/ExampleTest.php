@@ -4,15 +4,17 @@ namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\User;
 
 class ExampleTest extends TestCase
 {
-    /**
-     * A basic test example.
-     */
     public function test_the_application_returns_a_successful_response(): void
     {
-        $response = $this->get('/');
+        // Creamos un usuario de prueba en la base de datos (MySQL 8.4 del CI)
+        $user = User::factory()->create();
+
+        // Actuamos como ese usuario y entramos a la home
+        $response = $this->actingAs($user)->get('/');
 
         $response->assertStatus(200);
     }
