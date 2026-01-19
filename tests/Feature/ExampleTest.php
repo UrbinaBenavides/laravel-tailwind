@@ -2,20 +2,23 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User; // Asegúrate de importar el modelo User
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\User;
 
 class ExampleTest extends TestCase
 {
+    use RefreshDatabase; // Esto limpia la base de datos después de cada test
+
     public function test_the_application_returns_a_successful_response(): void
     {
-        // Creamos un usuario de prueba en la base de datos (MySQL 8.4 del CI)
+        // 1. Creamos un usuario de prueba usando el Factory
         $user = User::factory()->create();
 
-        // Actuamos como ese usuario y entramos a la home
+        // 2. Usamos 'actingAs' para decirle a Laravel que este usuario está logueado
         $response = $this->actingAs($user)->get('/');
 
+        // 3. Ahora sí, debería devolver 200 en lugar de redireccionar al login
         $response->assertStatus(200);
     }
 }
