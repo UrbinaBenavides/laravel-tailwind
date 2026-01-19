@@ -32,7 +32,8 @@ jobs:
         php-version: '8.5' 
         extensions: mbstring, dom, curl, libxml, mysql
         coverage: none
-
+      env:
+        update-php: true
     - name: Install Composer Dependencies
       run: composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
